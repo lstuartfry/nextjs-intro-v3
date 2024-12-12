@@ -2,12 +2,12 @@
 
 import type { Todo as TodoType } from '@prisma/client';
 import { useTransition } from 'react';
-import { markTodoComplete } from '@/utils/actions';
+import { updateTodoComplete } from '@/utils/actions';
 
 export default function Todo({ todo }: { todo: TodoType }) {
   const [isPending, startTransition] = useTransition();
   const onTodoClick = () => {
-    startTransition(() => markTodoComplete(todo.id));
+    startTransition(() => updateTodoComplete(todo.id));
   };
 
   return (

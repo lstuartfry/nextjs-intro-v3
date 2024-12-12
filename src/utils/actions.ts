@@ -22,13 +22,18 @@ export const createTodo = async (formData: FormData) => {
   revalidatePath(routes.TODOS);
 };
 
-export const markTodoComplete = async (id: Todo['id']) => {
+export const updateTodoComplete = async (id: Todo['id']) => {
+  const todo = await db.todo.findUnique({
+    where: {
+      id,
+    },
+  });
   await db.todo.update({
     where: {
       id,
     },
     data: {
-      completed: true,
+      completed: !todo?.completed,
     },
   });
   revalidatePath(routes.TODOS);
