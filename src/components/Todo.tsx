@@ -1,5 +1,23 @@
+'use client';
+
 import type { Todo as TodoType } from '@prisma/client';
+import { useTransition } from 'react';
+import { markTodoComplete } from '@/utils/actions';
 
 export default function Todo({ todo }: { todo: TodoType }) {
-  return <div>{todo.content}</div>;
+  const [isPending, startTransition] = useTransition();
+  const onTodoClick = () => {
+    startTransition(() => markTodoComplete(todo.id));
+  };
+
+  return (
+    <button
+      className={`flex bg-red-300 w-fit p-2 rounded-md ${
+        todo.completed ? 'line-through text-gray-300' : 'text-white'
+      }`}
+      onClick={onTodoClick}
+    >
+      {todo.content}
+    </button>
+  );
 }
